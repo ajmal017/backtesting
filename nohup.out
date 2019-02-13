@@ -1,0 +1,163 @@
+Error: Specify one application only
+
+Usage:
+
+    waitress-serve [OPTS] MODULE:OBJECT
+
+Standard options:
+
+    --help
+        Show this information.
+
+    --call
+        Call the given object to get the WSGI application.
+
+    --host=ADDR
+        Hostname or IP address on which to listen, default is '0.0.0.0',
+        which means "all IP addresses on this host".
+
+        Note: May not be used together with --listen
+
+    --port=PORT
+        TCP port on which to listen, default is '8080'
+
+        Note: May not be used together with --listen
+
+    --listen=ip:port
+        Tell waitress to listen on an ip port combination.
+
+        Example:
+
+            --listen=127.0.0.1:8080
+            --listen=[::1]:8080
+            --listen=*:8080
+
+        This option may be used multiple times to listen on multipe sockets.
+        A wildcard for the hostname is also supported and will bind to both
+        IPv4/IPv6 depending on whether they are enabled or disabled.
+
+    --[no-]ipv4
+        Toggle on/off IPv4 support.
+
+        Example:
+
+            --no-ipv4
+
+        This will disable IPv4 socket support. This affects wildcard matching
+        when generating the list of sockets.
+
+    --[no-]ipv6
+        Toggle on/off IPv6 support.
+
+        Example:
+
+            --no-ipv6
+
+        This will turn on IPv6 socket support. This affects wildcard matching
+        when generating a list of sockets.
+
+    --unix-socket=PATH
+        Path of Unix socket. If a socket path is specified, a Unix domain
+        socket is made instead of the usual inet domain socket.
+
+        Not available on Windows.
+
+    --unix-socket-perms=PERMS
+        Octal permissions to use for the Unix domain socket, default is
+        '600'.
+
+    --url-scheme=STR
+        Default wsgi.url_scheme value, default is 'http'.
+
+   --url-prefix=STR
+        The ``SCRIPT_NAME`` WSGI environment value.  Setting this to anything
+        except the empty string will cause the WSGI ``SCRIPT_NAME`` value to be
+        the value passed minus any trailing slashes you add, and it will cause
+        the ``PATH_INFO`` of any request which is prefixed with this value to
+        be stripped of the prefix.  Default is the empty string.
+
+    --ident=STR
+        Server identity used in the 'Server' header in responses. Default
+        is 'waitress'.
+
+Tuning options:
+
+    --threads=INT
+        Number of threads used to process application logic, default is 4.
+
+    --backlog=INT
+        Connection backlog for the server. Default is 1024.
+
+    --recv-bytes=INT
+        Number of bytes to request when calling socket.recv(). Default is
+        8192.
+
+    --send-bytes=INT
+        Number of bytes to send to socket.send(). Default is 18000.
+        Multiples of 9000 should avoid partly-filled TCP packets.
+
+    --outbuf-overflow=INT
+        A temporary file should be created if the pending output is larger
+        than this. Default is 1048576 (1MB).
+
+    --inbuf-overflow=INT
+        A temporary file should be created if the pending input is larger
+        than this. Default is 524288 (512KB).
+
+    --connection-limit=INT
+        Stop creating new channelse if too many are already active.
+        Default is 100.
+
+    --cleanup-interval=INT
+        Minimum seconds between cleaning up inactive channels. Default
+        is 30. See '--channel-timeout'.
+
+    --channel-timeout=INT
+        Maximum number of seconds to leave inactive connections open.
+        Default is 120. 'Inactive' is defined as 'has recieved no data
+        from the client and has sent no data to the client'.
+
+    --[no-]log-socket-errors
+        Toggle whether premature client disconnect tracepacks ought to be
+        logged. On by default.
+
+    --max-request-header-size=INT
+        Maximum size of all request headers combined. Default is 262144
+        (256KB).
+
+    --max-request-body-size=INT
+        Maximum size of request body. Default is 1073741824 (1GB).
+
+    --[no-]expose-tracebacks
+        Toggle whether to expose tracebacks of unhandled exceptions to the
+        client. Off by default.
+
+    --asyncore-loop-timeout=INT
+        The timeout value in seconds passed to asyncore.loop(). Default is 1.
+
+    --asyncore-use-poll
+        The use_poll argument passed to ``asyncore.loop()``. Helps overcome
+        open file descriptors limit. Default is False.
+
+
+ERROR:flask.app:Exception on /portfolio [POST]
+Traceback (most recent call last):
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask_restful/__init__.py", line 480, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask/views.py", line 88, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask_restful/__init__.py", line 595, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask_jwt_extended/view_decorators.py", line 102, in wrapper
+    verify_jwt_in_request()
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask_jwt_extended/view_decorators.py", line 31, in verify_jwt_in_request
+    jwt_data = _decode_jwt_from_request(request_type='access')
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask_jwt_extended/view_decorators.py", line 265, in _decode_jwt_from_request
+    decoded_token = decode_function()
+  File "/home/pb_agent/Documents/backtestingapi/venv/lib/python3.5/site-packages/flask_jwt_extended/view_decorators.py", line 191, in _decode_jwt_from_headers
+    raise InvalidHeaderError(msg)
+flask_jwt_extended.exceptions.InvalidHeaderError: Bad Authorization header. Expected value 'Bearer <JWT>'
